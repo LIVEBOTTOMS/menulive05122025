@@ -168,11 +168,11 @@ export const beveragesMenu: MenuSection = {
       title: "World Whisky Collection",
       icon: "🥃",
       items: [
-        { name: "Ballantine's Finest", sizes: ["₹419", "₹799", "₹1,199"], description: "Scottish blend with honey & apple notes" },
-        { name: "Black & White", sizes: ["₹379", "₹729", "₹1,099"], description: "Smoky Highland character with gentle peat" },
-        { name: "Black Dog", sizes: ["₹419", "₹799", "₹1,199"], description: "Triple gold matured for exceptional smoothness" },
-        { name: "Jameson Irish Whiskey", sizes: ["₹499", "₹949", "₹1,399"], description: "Triple-distilled with signature Irish smoothness" },
-        { name: "Johnnie Walker Red Label", sizes: ["₹459", "₹879", "₹1,299"], description: "Bold & vibrant with cinnamon spice" },
+        { name: "Ballantine's Finest", sizes: ["₹399", "₹799", "₹1,199", "₹2,399"], description: "Scottish blend with honey & apple notes" },
+        { name: "Black & White", sizes: ["₹359", "₹719", "₹1,079", "₹2,159"], description: "Smoky Highland character with gentle peat" },
+        { name: "Black Dog", sizes: ["₹399", "₹799", "₹1,199", "₹2,399"], description: "Triple gold matured for exceptional smoothness" },
+        { name: "Jameson Irish Whiskey", sizes: ["₹449", "₹899", "₹1,349", "₹2,699"], description: "Triple-distilled with signature Irish smoothness" },
+        { name: "Johnnie Walker Red Label", sizes: ["₹429", "₹859", "₹1,289", "₹2,579"], description: "Bold & vibrant with cinnamon spice" },
       ],
     },
     {

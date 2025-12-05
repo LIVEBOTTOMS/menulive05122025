@@ -37,8 +37,8 @@ export const MenuCategory = ({ category, index, sectionKey }: MenuCategoryProps)
       {/* Premium Category Header */}
       <div className="mb-5">
         <div className={`inline-flex items-center gap-3 px-5 py-2.5 rounded-lg border backdrop-blur-sm ${isEven
-            ? "border-primary/40 bg-primary/5"
-            : "border-secondary/40 bg-secondary/5"
+          ? "border-primary/40 bg-primary/5"
+          : "border-secondary/40 bg-secondary/5"
           }`}>
           {category.icon && <span className="text-xl">{category.icon}</span>}
           <h3 className={`font-cinzel text-base font-semibold tracking-widest uppercase ${isEven ? "text-primary" : "text-secondary"
@@ -53,6 +53,7 @@ export const MenuCategory = ({ category, index, sectionKey }: MenuCategoryProps)
             <span>30ml</span>
             <span>60ml</span>
             <span>90ml</span>
+            <span>180ml</span>
           </div>
         )}
       </div>
@@ -116,8 +117,8 @@ export const MenuCategory = ({ category, index, sectionKey }: MenuCategoryProps)
             <button
               onClick={() => setIsAdding(true)}
               className={`w-full mt-2 py-2.5 px-4 rounded-lg border border-dashed transition-all duration-300 flex items-center justify-center gap-2 text-sm font-rajdhani tracking-wide ${isEven
-                  ? "border-primary/30 text-primary/70 hover:border-primary/60 hover:bg-primary/5"
-                  : "border-secondary/30 text-secondary/70 hover:border-secondary/60 hover:bg-secondary/5"
+                ? "border-primary/30 text-primary/70 hover:border-primary/60 hover:bg-primary/5"
+                : "border-secondary/30 text-secondary/70 hover:border-secondary/60 hover:bg-secondary/5"
                 }`}
             >
               <Plus className="w-4 h-4" />
