@@ -5,6 +5,7 @@ export interface MenuItem {
   halfPrice?: string;
   fullPrice?: string;
   sizes?: string[];
+  available?: boolean; // Track if item is available (default: true)
 }
 
 export interface MenuCategory {

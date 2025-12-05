@@ -13,6 +13,7 @@ interface DbMenuItem {
   half_price: number | null;
   full_price: number | null;
   sizes: string[] | null;
+  available: boolean | null;
   display_order: number;
 }
 
@@ -50,6 +51,7 @@ const dbToMenuItem = (item: DbMenuItem): MenuItem => ({
   halfPrice: formatPrice(item.half_price),
   fullPrice: formatPrice(item.full_price),
   sizes: item.sizes || undefined,
+  available: item.available ?? true,
 });
 
 const dbToMenuSection = (section: DbSection): MenuSection => ({
@@ -135,7 +137,7 @@ export const useMenuDatabase = () => {
       // Insert categories
       for (let catIdx = 0; catIdx < section.data.categories.length; catIdx++) {
         const category = section.data.categories[catIdx];
-        
+
         const { data: catResult, error: catError } = await supabase
           .from("menu_categories")
           .insert({
@@ -161,6 +163,7 @@ export const useMenuDatabase = () => {
           half_price: parsePrice(item.halfPrice),
           full_price: parsePrice(item.fullPrice),
           sizes: item.sizes || null,
+          available: item.available ?? true,
           display_order: idx,
         }));
 
@@ -220,24 +223,65 @@ export const useMenuDatabase = () => {
         half_price: parsePrice(updatedItem.halfPrice),
         full_price: parsePrice(updatedItem.fullPrice),
         sizes: updatedItem.sizes || null,
+        available: updatedItem.available ?? true,
       })
+      .eq("id", items[itemIndex].id);
+  };
+
+  const deleteMenuItem = async (
+    sectionType: MenuSectionType,
+    categoryIndex: number,
+    itemIndex: number
+  ) => {
+    // Get the section
+    const { data: section } = await supabase
+      .from("menu_sections")
+      .select("id")
+      .eq("type", sectionType)
+      .single();
+
+    if (!section) return;
+
+    // Get the category
+    const { data: categories } = await supabase
+      .from("menu_categories")
+      .select("id")
+      .eq("section_id", section.id)
+      .order("display_order");
+
+    if (!categories || !categories[categoryIndex]) return;
+
+    // Get the item
+    const { data: items } = await supabase
+      .from("menu_items")
+      .select("id")
+      .eq("category_id", categories[categoryIndex].id)
+      .order("display_order");
+
+    if (!items || !items[itemIndex]) return;
+
+    // Delete the item
+    await supabase
+      .from("menu_items")
+      .delete()
       .eq("id", items[itemIndex].id);
   };
 
   const checkAndSeed = async () => {
     setIsLoading(true);
     const data = await fetchMenuData();
-    
+
     if (!data) {
       await seedDatabase();
     }
-    
+
     setIsLoading(false);
   };
 
   return {
     fetchMenuData,
     updateMenuItem,
+    deleteMenuItem,
     checkAndSeed,
     isLoading,
     isSeeded,

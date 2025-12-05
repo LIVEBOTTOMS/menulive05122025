@@ -62,8 +62,8 @@ export const MenuProvider = ({ children }: { children: ReactNode }) => {
   const [menuData, setMenuData] = useState<MenuData>(getDefaultMenuData);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  
-  const { fetchMenuData, updateMenuItem: dbUpdateMenuItem, checkAndSeed } = useMenuDatabase();
+
+  const { fetchMenuData, updateMenuItem: dbUpdateMenuItem, deleteMenuItem: dbDeleteMenuItem, checkAndSeed } = useMenuDatabase();
 
   const refreshMenu = async () => {
     setIsLoading(true);
@@ -109,7 +109,8 @@ export const MenuProvider = ({ children }: { children: ReactNode }) => {
     // TODO: Add to database
   };
 
-  const deleteMenuItem = (sectionKey: string, categoryIndex: number, itemIndex: number) => {
+  const deleteMenuItem = async (sectionKey: string, categoryIndex: number, itemIndex: number) => {
+    // Update local state immediately
     setMenuData(prev => {
       const newData = deepClone(prev);
       const section = newData[sectionKey as keyof MenuData];
@@ -118,15 +119,20 @@ export const MenuProvider = ({ children }: { children: ReactNode }) => {
       }
       return newData;
     });
-    // TODO: Delete from database
+
+    // Delete from database
+    await dbDeleteMenuItem(sectionKeyToType(sectionKey), categoryIndex, itemIndex);
+
+    // Refresh to ensure sync
+    await refreshMenu();
   };
 
   const adjustPrices = (percentage: number, sectionKey?: string, categoryIndex?: number) => {
     const multiplier = 1 + percentage / 100;
-    
+
     setMenuData(prev => {
       const newData = deepClone(prev);
-      
+
       const adjustSection = (section: MenuSection, catIndex?: number) => {
         section.categories.forEach((category, idx) => {
           if (catIndex === undefined || catIndex === idx) {
@@ -143,7 +149,7 @@ export const MenuProvider = ({ children }: { children: ReactNode }) => {
       } else {
         (Object.keys(newData) as Array<keyof MenuData>).forEach(key => adjustSection(newData[key]));
       }
-      
+
       return newData;
     });
     // TODO: Batch update prices in database
@@ -156,17 +162,17 @@ export const MenuProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <MenuContext.Provider value={{ 
-      menuData, 
-      isEditMode, 
+    <MenuContext.Provider value={{
+      menuData,
+      isEditMode,
       isLoading,
-      setIsEditMode, 
-      updateMenuItem, 
-      addMenuItem, 
-      deleteMenuItem, 
-      adjustPrices, 
+      setIsEditMode,
+      updateMenuItem,
+      addMenuItem,
+      deleteMenuItem,
+      adjustPrices,
       resetToOriginal,
-      refreshMenu 
+      refreshMenu
     }}>
       {children}
     </MenuContext.Provider>
