@@ -163,7 +163,6 @@ export const useMenuDatabase = () => {
           half_price: parsePrice(item.halfPrice),
           full_price: parsePrice(item.fullPrice),
           sizes: item.sizes || null,
-          available: item.available ?? true,
           display_order: idx,
         }));
 
@@ -223,7 +222,6 @@ export const useMenuDatabase = () => {
         half_price: parsePrice(updatedItem.halfPrice),
         full_price: parsePrice(updatedItem.fullPrice),
         sizes: updatedItem.sizes || null,
-        available: updatedItem.available ?? true,
       })
       .eq("id", items[itemIndex].id);
   };
