@@ -138,10 +138,10 @@ export const beveragesMenu: MenuSection = {
       title: "Crystal Clear Vodkas",
       icon: "🍸",
       items: [
-        { name: "Magic Moments (Plain)", sizes: ["₹120", "₹200", "₹300"], description: "Triple-distilled smoothness with clean finish" },
-        { name: "Magic Moments Apple / Orange", sizes: ["₹120", "₹200", "₹300"], description: "Fruit-infused with natural flavor essences" },
-        { name: "Romanov Vodka (Plain / Apple)", sizes: ["₹110", "₹200", "₹280"], description: "Classic Russian-style with subtle sweetness" },
-        { name: "Smirnoff", sizes: ["₹150", "₹290", "₹420"], description: "World-renowned purity, filtered ten times" },
+        { name: "Magic Moments (Plain)", sizes: ["₹120", "₹200", "₹300", "₹600"], description: "Triple-distilled smoothness with clean finish" },
+        { name: "Magic Moments Apple / Orange", sizes: ["₹120", "₹200", "₹300", "₹600"], description: "Fruit-infused with natural flavor essences" },
+        { name: "Romanov Vodka (Plain / Apple)", sizes: ["₹110", "₹200", "₹280", "₹560"], description: "Classic Russian-style with subtle sweetness" },
+        { name: "Smirnoff", sizes: ["₹150", "₹290", "₹420", "₹840"], description: "World-renowned purity, filtered ten times" },
       ],
     },
     {
@@ -165,14 +165,61 @@ export const beveragesMenu: MenuSection = {
       ],
     },
     {
-      title: "World Whisky Collection",
+      title: "Scotch & Blended Whiskies",
       icon: "🥃",
       items: [
-        { name: "Ballantine's Finest", sizes: ["₹399", "₹799", "₹1,199", "₹2,399"], description: "Scottish blend with honey & apple notes" },
-        { name: "Black & White", sizes: ["₹359", "₹719", "₹1,079", "₹2,159"], description: "Smoky Highland character with gentle peat" },
-        { name: "Black Dog", sizes: ["₹399", "₹799", "₹1,199", "₹2,399"], description: "Triple gold matured for exceptional smoothness" },
-        { name: "Jameson Irish Whiskey", sizes: ["₹449", "₹899", "₹1,349", "₹2,699"], description: "Triple-distilled with signature Irish smoothness" },
-        { name: "Johnnie Walker Red Label", sizes: ["₹429", "₹859", "₹1,289", "₹2,579"], description: "Bold & vibrant with cinnamon spice" },
+        // Entry Premium
+        { name: "Johnnie Walker Red Label", sizes: ["₹140", "₹280", "₹420", "₹840"], description: "Vibrant & spicy with a hint of smoke" },
+        { name: "Ballantine's Finest", sizes: ["₹140", "₹280", "₹420", "₹840"], description: "Soft, sweet & complex with vanilla notes" },
+        { name: "Dewar's White Label", sizes: ["₹140", "₹280", "₹420", "₹840"], description: "Honeyed heather and floral notes" },
+        { name: "Bushmills Original", sizes: ["₹140", "₹280", "₹420", "₹840"], description: "Grain whiskey matured in American oak" },
+        { name: "Vat 69", sizes: ["₹145", "₹290", "₹435", "₹870"], description: "Famous blend with a sweet & rounded finish" },
+        { name: "Jim Beam White", sizes: ["₹160", "₹320", "₹480", "₹960"], description: "Classic Kentucky Straight Bourbon" },
+        { name: "100 Pipers", sizes: ["₹160", "₹320", "₹480", "₹960"], description: "Smooth blend with woody & fruity notes" },
+        { name: "Black & White", sizes: ["₹165", "₹330", "₹495", "₹990"], description: "Smooth light blend with citrus checks" },
+        { name: "Teacher's Highland Cream", sizes: ["₹165", "₹330", "₹495", "₹990"], description: "High malt content with peaty depth" },
+        { name: "Black Dog Centenary", sizes: ["₹165", "₹330", "₹495", "₹990"], description: "Aged 8 years, rich & rounded" },
+
+        // Mid Range
+        { name: "Teacher's 50", sizes: ["₹190", "₹380", "₹570", "₹1,140"], description: "Golden blend commemorating 50 years of independence" },
+        { name: "Black Dog Scotch Reserve", sizes: ["₹195", "₹390", "₹585", "₹1,170"], description: "Triple Gold Reserve, luxurious & smooth" },
+        { name: "Jack Daniel's Old No.7", sizes: ["₹220", "₹440", "₹660", "₹1,320"], description: "Tennessee sour mash charcoal mellowed" },
+        { name: "Chivas Regal 12 YO", sizes: ["₹240", "₹480", "₹720", "₹1,440"], description: "Rich & generous blend with honey & hazelnut" },
+        { name: "Johnnie Walker Black Label", sizes: ["₹240", "₹480", "₹720", "₹1,440"], description: "Iconic blend of 12+ year whiskies, smoky & smooth" },
+        { name: "Monkey Shoulder", sizes: ["₹250", "₹500", "₹750", "₹1,500"], description: "Blended malt scotch, creamy & supple" },
+
+        // Top Shelf
+        { name: "Jameson Irish Whiskey", sizes: ["₹300", "₹600", "₹900", "₹1,800"], description: "Triple distilled, twice as smooth" },
+        { name: "Johnnie Walker Double Black", sizes: ["₹310", "₹620", "₹930", "₹1,860"], description: "Intense, deep & smoky character" },
+        { name: "Talisker 10 YO", sizes: ["₹360", "₹720", "₹1,080", "₹2,160"], description: "Single malt from Isle of Skye, sea-salt & peat" },
+        { name: "The Glenlivet 12 YO", sizes: ["₹375", "₹750", "₹1,125", "₹2,250"], description: "Definitive Speyside single malt, delicate & fruity" },
+        { name: "Glenfiddich 12 YO", sizes: ["₹380", "₹760", "₹1,140", "₹2,280"], description: "World's most awarded single malt, pear & oak notes" },
+      ],
+    },
+    {
+      title: "Tequila Shots",
+      icon: "🌵",
+      items: [
+        { name: "Don Angel Blanco", sizes: ["₹229", "₹429"], description: "Crisp & fresh classic tequila" },
+        { name: "Camino Real Gold", sizes: ["₹249", "₹449"], description: "Golden amber with gentle oak notes" },
+        { name: "Sauza Silver", sizes: ["₹279", "₹499"], description: "Double distilled for extra smoothness" },
+        { name: "Jose Cuervo Silver", sizes: ["₹299", "₹549"], description: "Clean, crisp with agave notes" },
+        { name: "Jose Cuervo Gold / Reposado", sizes: ["₹319", "₹599"], description: "Aged in oak, smooth vanilla finish" },
+        { name: "Corralejo Blanco", sizes: ["₹399", "₹749"], description: "Premium 100% blue agave" },
+      ],
+    },
+    {
+      title: "Liqueurs & Shooters",
+      icon: "🍹",
+      items: [
+        { name: "Blue Curacao / Triple Sec", price: "₹199", description: "Vibrant citrus-flavored liqueur" },
+        { name: "Kahlúa Coffee Liqueur", price: "₹299", description: "Rich roast coffee & sugarcane spirit" },
+        { name: "Sambuca Molinari", price: "₹329", description: "Classic Italian anise-flavored shooter" },
+        { name: "Baileys Irish Cream", price: "₹349", description: "Decadent cream, cocoa & irish whiskey blend" },
+        { name: "Jägermeister", price: "₹399", description: "Served ice cold (-18°C), herbal digestif" },
+        { name: "Cointreau", price: "₹379", description: "Premium crystal clear orange liqueur" },
+        { name: "Kamikaze Shot", price: "₹299", description: "Vodka, fresh lime & triple sec" },
+        { name: "B-52 Layered Shooter", price: "₹449", description: "Kahlúa, Baileys & Cointreau layered perfection" },
       ],
     },
     {
