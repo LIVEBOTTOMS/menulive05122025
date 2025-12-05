@@ -9,10 +9,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Loader2, LogOut, Menu, Users, Settings, ShieldCheck, ShieldX, Home, Percent, RotateCcw, Download, Edit, QrCode, Sparkles } from 'lucide-react';
+import { Loader2, LogOut, Menu, Users, Settings, ShieldCheck, ShieldX, Home, Percent, RotateCcw, Download, Edit, QrCode, Sparkles, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PrintPreview } from '@/components/PrintPreview';
 import QRCodeLib from 'qrcode';
+import { clearAndReseedDatabase } from '@/utils/resetDatabase';
 
 const AdminDashboard = () => {
   const { user, isAdmin, isLoading, signOut } = useAuth();
@@ -141,6 +142,32 @@ const AdminDashboard = () => {
       title: '📥 Downloaded',
       description: 'QR code saved to your downloads folder.',
     });
+  };
+
+  const handleReseedDatabase = async () => {
+    if (!confirm('This will clear all menu data and reload with updated prices. Continue?')) {
+      return;
+    }
+
+    try {
+      await clearAndReseedDatabase();
+      toast({
+        title: '🔄 Database Cleared',
+        description: 'Reloading menu with updated prices...',
+      });
+
+      // Wait a moment then reload the page
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.error('Error reseeding database:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to reseed database. Please try again.',
+        variant: 'destructive',
+      });
+    }
   };
 
   if (isLoading) {
@@ -368,6 +395,17 @@ const AdminDashboard = () => {
                     Generate QR Code
                   </>
                 )}
+              </Button>
+
+              {/* Reload Updated Prices */}
+              <Button
+                variant="outline"
+                onClick={handleReseedDatabase}
+                disabled={!isAdmin}
+                className="border-orange-500/50 text-orange-400 hover:bg-orange-500/10 transition-all duration-300"
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Reload Updated Prices
               </Button>
             </div>
           </CardContent>
