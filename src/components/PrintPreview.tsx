@@ -397,13 +397,16 @@ export const PrintPreview = ({ isOpen, onClose }: PrintPreviewProps) => {
   const downloadAsPDF = async (allPages: boolean) => {
     setIsExporting(true);
     try {
+      // Use A4 dimensions in mm (standard for PDF)
       const pdf = new jsPDF({
         orientation: "portrait",
-        unit: "px",
-        format: [794, 1123],
+        unit: "mm",
+        format: "a4",
       });
 
       const pagesToExport = allPages ? pages.map((_, i) => i) : [currentPage];
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = 297; // A4 height in mm
 
       for (let i = 0; i < pagesToExport.length; i++) {
         const pageIndex = pagesToExport[i];
@@ -412,13 +415,14 @@ export const PrintPreview = ({ isOpen, onClose }: PrintPreviewProps) => {
         if (canvas) {
           if (i > 0) pdf.addPage();
           const imgData = canvas.toDataURL("image/png", 1.0);
-          pdf.addImage(imgData, "PNG", 0, 0, 794, 1123);
+          pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
         }
       }
 
       pdf.save(allPages ? "menu-complete.pdf" : `menu-${pages[currentPage].key}.pdf`);
       toast.success("PDF downloaded successfully");
     } catch (error) {
+      console.error("PDF export error:", error);
       toast.error("Failed to create PDF");
     } finally {
       setIsExporting(false);
@@ -512,8 +516,8 @@ export const PrintPreview = ({ isOpen, onClose }: PrintPreviewProps) => {
                     key={i}
                     onClick={() => setCurrentPage(i)}
                     className={`px-3 h-8 rounded text-xs font-medium transition-colors ${i === currentPage
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted hover:bg-muted/80"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted hover:bg-muted/80"
                       }`}
                   >
                     {page.key.charAt(0).toUpperCase() + page.key.slice(1)}
