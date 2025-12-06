@@ -80,7 +80,7 @@ const CategoryBlock = ({ category, index }: { category: MenuCategoryType; index:
           {category.title}
         </h3>
       </div>
-      
+
       {/* Size Headers for drinks */}
       {category.items[0]?.sizes && (
         <div className="flex justify-end gap-4 px-4 pb-2 border-b border-gray-800">
@@ -90,7 +90,7 @@ const CategoryBlock = ({ category, index }: { category: MenuCategoryType; index:
           <span className="text-[9px] text-gray-500 min-w-[50px] text-center uppercase tracking-wider">180ml</span>
         </div>
       )}
-      
+
       {/* Items */}
       <div className="divide-y divide-gray-800/50">
         {category.items.map((item, idx) => (
@@ -101,23 +101,23 @@ const CategoryBlock = ({ category, index }: { category: MenuCategoryType; index:
   );
 };
 
-const PrintablePage = ({ 
-  section, 
+const PrintablePage = ({
+  section,
   pageRef,
   variant,
   pageNumber,
   totalPages
-}: { 
-  section: MenuSectionType; 
+}: {
+  section: MenuSectionType;
   pageRef: React.RefObject<HTMLDivElement>;
   variant: "cyan" | "magenta" | "gold";
   pageNumber: number;
   totalPages: number;
 }) => {
   const accentColor = variant === "cyan" ? "#00f0ff" : variant === "magenta" ? "#ff00ff" : "#ffd700";
-  
+
   return (
-    <div 
+    <div
       ref={pageRef}
       className="bg-[#0a0a0f] w-[794px] min-h-[1123px] relative flex flex-col"
       style={{ fontFamily: "'Rajdhani', sans-serif" }}
@@ -125,7 +125,7 @@ const PrintablePage = ({
       {/* Elegant Border */}
       <div className="absolute inset-4 border border-gray-700/30 pointer-events-none" />
       <div className="absolute inset-6 border border-gray-700/20 pointer-events-none" />
-      
+
       {/* Header */}
       <div className="pt-12 pb-6 text-center">
         <div className="mb-2">
@@ -145,7 +145,7 @@ const PrintablePage = ({
       {/* Section Title */}
       <div className="text-center mb-6 px-12">
         <div className="inline-block">
-          <h2 
+          <h2
             className="text-xl font-bold tracking-[0.2em] uppercase mb-2"
             style={{ color: accentColor, fontFamily: "'Orbitron', sans-serif" }}
           >
@@ -191,7 +191,40 @@ export const PrintPreview = ({ isOpen, onClose }: PrintPreviewProps) => {
   const pages = [
     { section: menuData.snacksAndStarters, variant: "cyan" as const, key: "snacks" },
     { section: menuData.foodMenu, variant: "magenta" as const, key: "food" },
-    { section: menuData.beveragesMenu, variant: "cyan" as const, key: "beverages" },
+    // Split Beverages into multiple pages
+    {
+      section: {
+        ...menuData.beveragesMenu,
+        title: "Beverages (Beer & Spirits)",
+        categories: menuData.beveragesMenu.categories.filter(c =>
+          ["Craft & Classic Brews", "Crystal Clear Vodkas", "Aged & Spiced Rums", "Indian Reserve Whiskies"].includes(c.title)
+        )
+      },
+      variant: "cyan" as const,
+      key: "beverages-1"
+    },
+    {
+      section: {
+        ...menuData.beveragesMenu,
+        title: "Premium Whiskies",
+        categories: menuData.beveragesMenu.categories.filter(c =>
+          ["Scotch & Blended Whiskies"].includes(c.title)
+        )
+      },
+      variant: "gold" as const,
+      key: "beverages-2"
+    },
+    {
+      section: {
+        ...menuData.beveragesMenu,
+        title: "Shots & Celebrations",
+        categories: menuData.beveragesMenu.categories.filter(c =>
+          ["Tequila Shots", "Liqueurs & Shooters", "Celebration Bottles (750 ml)"].includes(c.title)
+        )
+      },
+      variant: "magenta" as const,
+      key: "beverages-3"
+    },
     { section: menuData.sideItems, variant: "gold" as const, key: "sides" },
   ];
 
@@ -204,6 +237,12 @@ export const PrintPreview = ({ isOpen, onClose }: PrintPreviewProps) => {
     document.body.appendChild(tempDiv);
 
     const page = pages[index];
+    // Skip rendering if page has no categories (safety check)
+    if (!page.section.categories || page.section.categories.length === 0) {
+      document.body.removeChild(tempDiv);
+      return null;
+    }
+
     const pageElement = document.createElement("div");
     pageElement.innerHTML = `
       <div style="font-family: 'Rajdhani', sans-serif; background: #0a0a0f; width: 794px; min-height: 1123px; position: relative; display: flex; flex-direction: column;">
@@ -320,7 +359,7 @@ export const PrintPreview = ({ isOpen, onClose }: PrintPreviewProps) => {
     try {
       const canvas = await capturePageAtIndex(currentPage);
       if (!canvas) throw new Error("Failed to capture");
-      
+
       const link = document.createElement("a");
       link.download = `menu-${pages[currentPage].key}.${format}`;
       link.href = canvas.toDataURL(format === "jpg" ? "image/jpeg" : "image/png", 1.0);
@@ -391,13 +430,13 @@ export const PrintPreview = ({ isOpen, onClose }: PrintPreviewProps) => {
     try {
       const canvas = await capturePageAtIndex(currentPage);
       if (!canvas) throw new Error("Failed to capture");
-      
+
       const printWindow = window.open("", "_blank");
       if (!printWindow) {
         toast.error("Please allow popups for printing");
         return;
       }
-      
+
       printWindow.document.write(`
         <!DOCTYPE html>
         <html>
@@ -472,11 +511,10 @@ export const PrintPreview = ({ isOpen, onClose }: PrintPreviewProps) => {
                   <button
                     key={i}
                     onClick={() => setCurrentPage(i)}
-                    className={`px-3 h-8 rounded text-xs font-medium transition-colors ${
-                      i === currentPage 
-                        ? "bg-primary text-primary-foreground" 
+                    className={`px-3 h-8 rounded text-xs font-medium transition-colors ${i === currentPage
+                        ? "bg-primary text-primary-foreground"
                         : "bg-muted hover:bg-muted/80"
-                    }`}
+                      }`}
                   >
                     {page.key.charAt(0).toUpperCase() + page.key.slice(1)}
                   </button>
@@ -494,35 +532,35 @@ export const PrintPreview = ({ isOpen, onClose }: PrintPreviewProps) => {
 
             {/* Export Actions */}
             <div className="flex items-center gap-2 flex-wrap">
-              <Button 
-                variant="outline" 
-                size="sm" 
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => downloadCurrentAsImage("png")}
                 disabled={isExporting}
               >
                 <FileImage className="w-4 h-4 mr-1" />
                 PNG
               </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => downloadAllAsImages("png")}
                 disabled={isExporting}
               >
                 <Download className="w-4 h-4 mr-1" />
                 All PNG
               </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => downloadAsPDF(false)}
                 disabled={isExporting}
               >
                 <FileText className="w-4 h-4 mr-1" />
                 PDF
               </Button>
-              <Button 
-                size="sm" 
+              <Button
+                size="sm"
                 onClick={() => downloadAsPDF(true)}
                 disabled={isExporting}
                 className="bg-neon-cyan/20 hover:bg-neon-cyan/30 text-neon-cyan border border-neon-cyan/50"
@@ -530,9 +568,9 @@ export const PrintPreview = ({ isOpen, onClose }: PrintPreviewProps) => {
                 <FileText className="w-4 h-4 mr-1" />
                 Full Menu PDF
               </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={handlePrint}
                 disabled={isExporting}
               >
